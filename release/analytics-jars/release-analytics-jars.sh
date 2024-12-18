@@ -4,6 +4,7 @@ RELEASE=$1
 VERSION=$2
 BLD_NUM=$3
 PRODUCT=$4
+VERSION_SUFFIX=$5
 
 if [ "${PRODUCT}" = "couchbase-columnar" ]; then
   JAR_PREFIX=columnar
@@ -24,7 +25,7 @@ ar x ${PRODUCT}.deb
 tar xf data.tar.xz --wildcards --strip-components 5 './opt/couchbase/lib/c*/repo/*.jar'
 
 # Create new jarball and checksum
-TARGET_NAME=${JAR_PREFIX}-jars-all-noarch-${VERSION}-${BLD_NUM}
+TARGET_NAME=${JAR_PREFIX}-jars-all-noarch-${VERSION}-${BLD_NUM}${VERSION_SUFFIX}
 pushd repo
 
 INSTALLER_JAR=${JAR_PREFIX}-install-${VERSION}.jar
@@ -45,7 +46,7 @@ popd
 md5sum ${TARGET_NAME}.tgz | cut -c -32 > ${TARGET_NAME}.md5
 
 # Publish to S3 and internal release mirror
-CBDEPS_DIR=${JAR_PREFIX}-jars/${VERSION}-${BLD_NUM}
+CBDEPS_DIR=${JAR_PREFIX}-jars/${VERSION}-${BLD_NUM}${VERSION_SUFFIX}
 for ext in tgz md5; do
   mkdir -p /releases/cbdeps/${CBDEPS_DIR}
   cp ${TARGET_NAME}.${ext} /releases/cbdeps/${CBDEPS_DIR}/${TARGET_NAME}.${ext}
