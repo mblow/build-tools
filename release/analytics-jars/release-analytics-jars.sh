@@ -26,7 +26,11 @@ curl -f -L http://latestbuilds.service.couchbase.com/builds/latestbuilds/${PRODU
 
 # Extract jar contents
 ar x ${PRODUCT}.deb
-tar xf data.tar.xz --wildcards --strip-components 5 './opt/couchbase/lib/c*/repo/*.jar'
+if [ "${PRODUCT}" = "enterprise-analytics" ]; then
+  tar xf data.tar.xz --wildcards --strip-components 5 './opt/enterprise-analytics/lib/c*/repo/*.jar'
+else
+  tar xf data.tar.xz --wildcards --strip-components 5 './opt/couchbase/lib/c*/repo/*.jar'
+fi
 
 # Create new jarball and checksum
 TARGET_NAME=${JAR_PREFIX}-jars-all-noarch-${VERSION}-${BLD_NUM}
