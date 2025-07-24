@@ -12,7 +12,7 @@ elif [ "${PRODUCT}" = "couchbase-server" ]; then
   JAR_PREFIX=cbas
   PACKAGE_SUFFIX=-enterprise
 elif [ "${PRODUCT}" = "enterprise-analytics" ]; then
-  JAR_PREFIX=cbas
+  JAR_PREFIX=enterprise-analytics
   unset PACKAGE_SUFFIX
 else
   echo PRODUCT must be one of 'couchbase-columnar', 'couchbase-server', or 'enterprise-analytics' but was $PRODUCT
