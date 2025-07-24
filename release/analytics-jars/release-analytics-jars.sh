@@ -7,8 +7,13 @@ PRODUCT=$4
 
 if [ "${PRODUCT}" = "couchbase-columnar" ]; then
   JAR_PREFIX=columnar
-elif [ "${PRODUCT}" = "couchbase-server" -o "${PRODUCT}" = "enterprise-analytics" ]; then
+  PACKAGE_SUFFIX=-enterprise
+elif [ "${PRODUCT}" = "couchbase-server" ]; then
   JAR_PREFIX=cbas
+  PACKAGE_SUFFIX=-enterprise
+elif [ "${PRODUCT}" = "enterprise-analytics" ]; then
+  JAR_PREFIX=cbas
+  unset PACKAGE_SUFFIX
 else
   echo PRODUCT must be one of 'couchbase-columnar', 'couchbase-server', or 'enterprise-analytics' but was $PRODUCT
   exit 1
