@@ -20,9 +20,9 @@ else
 fi
 
 # Download named build (try linux, falling back to Ubuntu 20 then debian10)
-curl -f -L http://latestbuilds.service.couchbase.com/builds/latestbuilds/${PRODUCT}/${RELEASE}/${BLD_NUM}/${PRODUCT}-enterprise_${VERSION}-${BLD_NUM}-linux_amd64.deb -o ${PRODUCT}.deb ||
-  curl -f -L http://latestbuilds.service.couchbase.com/builds/latestbuilds/${PRODUCT}/${RELEASE}/${BLD_NUM}/${PRODUCT}-enterprise_${VERSION}-${BLD_NUM}-ubuntu20.04_amd64.deb -o ${PRODUCT}.deb ||
-  curl -f -L http://latestbuilds.service.couchbase.com/builds/latestbuilds/${PRODUCT}/${RELEASE}/${BLD_NUM}/${PRODUCT}-enterprise_${VERSION}-${BLD_NUM}-debian10_amd64.deb -o ${PRODUCT}.deb
+curl -f -L http://latestbuilds.service.couchbase.com/builds/latestbuilds/${PRODUCT}/${RELEASE}/${BLD_NUM}/${PRODUCT}${PACKAGE_SUFFIX}_${VERSION}-${BLD_NUM}-linux_amd64.deb -o ${PRODUCT}.deb ||
+  curl -f -L http://latestbuilds.service.couchbase.com/builds/latestbuilds/${PRODUCT}/${RELEASE}/${BLD_NUM}/${PRODUCT}${PACKAGE_SUFFIX}_${VERSION}-${BLD_NUM}-ubuntu20.04_amd64.deb -o ${PRODUCT}.deb ||
+  curl -f -L http://latestbuilds.service.couchbase.com/builds/latestbuilds/${PRODUCT}/${RELEASE}/${BLD_NUM}/${PRODUCT}${PACKAGE_SUFFIX}_${VERSION}-${BLD_NUM}-debian10_amd64.deb -o ${PRODUCT}.deb
 
 # Extract jar contents
 ar x ${PRODUCT}.deb
