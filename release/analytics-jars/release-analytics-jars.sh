@@ -36,15 +36,18 @@ fi
 TARGET_NAME=${JAR_PREFIX}-jars-all-noarch-${VERSION}-${BLD_NUM}
 pushd repo
 
-INSTALLER_JAR=${JAR_PREFIX}-install-${VERSION}.jar
-INSTALLER_JAR_ALT=${JAR_PREFIX}-install-${VERSION}-${BLD_NUM}.jar
-if [ ! -f "${INSTALLER_JAR}" ]; then
-  if [ ! -f "${INSTALLER_JAR_ALT}" ]; then
-    echo "Cannot locate installer jar (tried ${INSTALLER_JAR} and ${INSTALLER_JAR_ALT})"
-    exit 1
-  else
-    INSTALLER_JAR=${INSTALLER_JAR_ALT}
+for jar in "${JAR_PREFIX}-install-${VERSION}.jar" \
+           "${JAR_PREFIX}-install-${VERSION}-${BLD_NUM}.jar" \
+           "cbas-install-${VERSION}-${BLD_NUM}.jar"; do
+  if [ -f "$jar" ]; then
+    INSTALLER_JAR="$jar"
+    break
   fi
+done
+
+if [ -z "$INSTALLER_JAR" ]; then
+  echo "Cannot locate installer jar (tried ${JAR_PREFIX}-install-${VERSION}.jar and ${JAR_PREFIX}-install-${VERSION}-${BLD_NUM}.jar)"
+  exit 1
 fi
 # TODO(mblow): this will need to be reworked if we ever have jars with a space in the name...
 unzip -p ${INSTALLER_JAR} META-INF/MANIFEST.MF | sed 's/^ /@@/g' | sed 's/@@@/#/g' | grep '\(^Class-Path\|^@@\)' \
