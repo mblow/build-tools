@@ -48,6 +48,14 @@ mvn -B \
     -f pom.xml \
     install
 
+# The in-reactor build pins the JDBC driver to its local SNAPSHOT coordinate, but
+# Black Duck must record the released artifact. Append the enterprise flavor's
+# released driver coordinate to its BOM so Detect scans that instead.
+EE_BOM=cbas/cbas-jdbc-taco/enterprise-analytics-taco/target/bom.txt
+if [ -f "${EE_BOM}" ]; then
+    echo "com.couchbase.client:enterprise-analytics-jdbc-driver:2.0.0.tableau" >> "${EE_BOM}"
+fi
+
 # Convert each built flavor's BOM into a set of poms Black Duck can scan.
 # create-maven-boms.py turns the "groupId:artifactId:version" list into poms
 # with all transitive deps excluded, so Detect records exactly the BOM contents
